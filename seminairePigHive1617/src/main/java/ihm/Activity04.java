@@ -22,7 +22,7 @@ public class Activity04 extends Activity<String> {
 
 	  // Create a form with the specified labels, tooltips, and sizes.
 	  public Activity04() {
-		String[] labels = new String[]{ "Prix mensuel (en euros)", "Prix de l'envoi d'un Kiss (en euros)", "Popularité", "Rétention" };
+		String[] labels = new String[]{ "Prix mensuel (en euros)", "Prix de l'envoi d'une fleur (en euros)", "Popularité", "Rétention" };
 		String[] defaults = new String[]{ "10", "0.50", "Nombre d'inscription par jour", "Durée de vie d'un utilisateur en mois" };
 		int[] widths = new int[]{ 5, 5, 20, 20 };
 	    
@@ -63,19 +63,19 @@ public class Activity04 extends Activity<String> {
 	    JPanel panel = new JPanel();
 	    JButton submit = new JButton("Next >");
 	    submit.addActionListener(new ActionListener() {
-	      public void actionPerformed(ActionEvent e) {
-	    	  boolean isOk=true;
-	    	  for (int i = 0; i < fields.length; i++) {
-	    		  try {
-					Double.parseDouble(fields[i].getTextfield().getText());
-					fields[i].getTextfield().setBackground(Color.WHITE);
-				} catch (Exception e2) {
-					isOk=false;
-					fields[i].getTextfield().setBackground(Color.RED);
-				}
-			}
-	    	  frame.setVisible(!isOk);
-	      }
+	    	public void actionPerformed(ActionEvent e) {
+	    		boolean isOk=true;
+	    		for (int i = 0; i < fields.length; i++) {
+	    			try {
+	    				Double.parseDouble(fields[i].getTextfield().getText());
+	    				fields[i].getTextfield().setBackground(Color.WHITE);
+	    			} catch (Exception e2) {
+	    				isOk=false;
+	    				fields[i].getTextfield().setBackground(Color.RED);
+	    			}
+	    		}
+	    		frame.setVisible(!isOk);
+	    	}
 	    });
 	    panel.add(submit);
 	    frame.getContentPane().add(panel, BorderLayout.SOUTH);
@@ -86,7 +86,7 @@ public class Activity04 extends Activity<String> {
         	sleep(10);
         }
         globalMap.put(App.KEY_MONTH_PRICE, fields[0].getTextfield().getText());
-        globalMap.put(App.KEY_KISS_PRICE, fields[1].getTextfield().getText());
+        globalMap.put(App.KEY_FLOWER_PRICE, fields[1].getTextfield().getText());
         globalMap.put(App.KEY_POPULARITY, fields[2].getTextfield().getText());
         globalMap.put(App.KEY_CHURN, fields[3].getTextfield().getText());
 		return this.getClass().getName();

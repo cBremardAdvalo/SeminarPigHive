@@ -1,6 +1,9 @@
 package metier;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -28,24 +31,27 @@ public class GlobalStat {
 	private final int stepIntervalInHour = 1;
 	private final double sessionDurationInHour = 5d / Double.valueOf(stepIntervalInHour);
 	private final double[] departuresprobs;
-	private final double[] incrementalHourArrivals = new double[]{0.05,0.04,0.03,0.02,0.0075,0.005,0.0075,0.01,0.01,0.02,0.03,0.03,0.04,0.03,0.04,0.04,0.04,0.05,0.06,0.08,0.1,0.1,0.09,0.07};
-	private final double[] incrementalDayArrivals =new double[]{0.18,0.02,0.08,0.11,0.08,0.2,0.33};
+	private final double[] arrivalsHourDensity = new double[]{0.05,0.04,0.03,0.02,0.0075,0.005,0.0075,0.01,0.01,0.02,0.03,0.03,0.04,0.03,0.04,0.04,0.04,0.05,0.06,0.08,0.1,0.1,0.09,0.07};
+	private final double[] arrivalsDayDEnsity =new double[]{0.18,0.02,0.08,0.11,0.08,0.2,0.33};
 
 	private String appName;
 	private String backgroundPath;
 	private double monthPrice;
-	private double monthCost = 23456.99 / Double.valueOf(stepIntervalInHour);
-	private double kissPrice;
+	private double monthCost = 4999.99;
+	private double flowerPrice;
 	private int popularity;
 	private int churn;
-	private File staging;
+	private File stagingDirectory;
 
 	private Map<Long,List<Event>> events = new HashMap<Long,List<Event>>();
 	private Set<String> connectedUsers = new HashSet<String>();
 	private int[] departuresEffective;
 	private SimpleDateFormat fDate = new SimpleDateFormat("EEE d MMM yyyy 'à' HH'h'", new Locale("FR","fr"));
+	private SimpleDateFormat fDateShort = new SimpleDateFormat("yyyyMMDDHHmmss");
 	private NumberFormat fDecimal = new DecimalFormat("###,###,###,###,##0.00");
 	private NumberFormat fInteger= new DecimalFormat("###,###,###,###,##0");
+	private boolean overheating = false;
+
 
 	public static GlobalStat getInstance(String appName, String backgroundPath, double monthPrice, double kissPrice, double popularity, double churn, File staging) {
 		if(instance == null) {
@@ -54,7 +60,7 @@ public class GlobalStat {
 		return instance;
 	}
 
-	private GlobalStat(String appName, String backgroundPath, double monthPrice, double kissPrice, double popularity, double churn, File staging) {
+	private GlobalStat(String appName, String backgroundPath, double monthPrice, double flowerPrice, double popularity, double churn, File stagingDirectory) {
 		super();
 		int maxSessionDuration = Double.valueOf(Math.ceil(2*sessionDurationInHour)).intValue();
 		departuresprobs = new double[maxSessionDuration];
@@ -72,18 +78,19 @@ public class GlobalStat {
 		+"\n  appName        = "+appName
 		+"\n  backgroundPath = "+backgroundPath
 		+"\n  monthPrice     = "+monthPrice
-		+"\n  kissPrice      = "+kissPrice
+		+"\n  kissPrice      = "+flowerPrice
 		+"\n  popularity     = "+Double.valueOf(popularity).intValue()
 		+"\n  churn          = "+Double.valueOf(churn).intValue()
-		+"\n  staging        = "+staging
+		+"\n  staging        = "+stagingDirectory
 		+"\n  departuresprobs= "+Arrays.toString(departuresprobs));}
 		this.appName = appName;
 		this.backgroundPath = backgroundPath;
 		this.monthPrice = monthPrice;
-		this.kissPrice = kissPrice;
+		this.flowerPrice = flowerPrice;
 		this.popularity = Double.valueOf(popularity).intValue();
 		this.churn = Double.valueOf(churn).intValue();
-		this.staging = staging;
+		this.stagingDirectory = new File(stagingDirectory,"staging");
+		this.stagingDirectory.mkdirs();
 		
 		Date date = new Date(1451602800000l);
 		this.ts = new GregorianCalendar(new Locale("FR","fr"));
@@ -91,57 +98,105 @@ public class GlobalStat {
 		this.nbInscrit = 0;
 		this.ca = 0d;
 	}
+
+	public String getFlowerPrice() {
+		return fDecimal.format(flowerPrice).trim() + " €";
+	}
+	public String getMonthPrice() {
+		return fDecimal.format(monthPrice).trim() + " €";
+	}
+	public String getMonthCost() {
+		return fDecimal.format(monthCost).trim() + " €";
+	}
+	public String getPopularity() {
+		return fInteger.format(popularity).trim();
+	}
+	public String getChurn() {
+		return fInteger.format(churn).trim()+" mois";
+	}
+	public String getNbConnected() {
+		return fInteger.format(connectedUsers.size()).trim();
+	}
+	public String getNbInscrit() {
+		return fInteger.format(nbInscrit).trim();
+	}
+	public String getNbInscriptionInMonth() {
+		return fInteger.format(nbInscriptionInMonth).trim();
+	}
+	public String getCa() {
+		return fInteger.format(ca).trim() + " €";
+	}
+	public String getTs() {
+		return fDate.format(ts.getTime());
+	}
+	public String getAppName() {
+		return appName;
+	}
+	public String getBackgroundPath(){
+		return backgroundPath;
+	}
+	public boolean isOverheating() {
+		return overheating;
+	}
+	@Override
+	public String toString() {
+		String string = getTs()+" : "+getNbInscriptionInMonth()+"/"+getNbInscrit()+" inscrits (dont "+getNbConnected()+" connectés) pour un CA de "+getCa();
+		if(debugMode) string += " (Incoming "+events.size()+" steps and departures :"+Arrays.toString(departuresEffective)+")";
+		string += " Free memory = "+new DecimalFormat("0.00'%'").format(100.0 * getFreeMemory());
+		return string;
+	}
 	
+	private double getFreeMemory() {
+		//return Double.valueOf(Runtime.getRuntime().freeMemory()) / Double.valueOf(Runtime.getRuntime().maxMemory());
+		return Double.valueOf(Runtime.getRuntime().freeMemory()) / Double.valueOf(Runtime.getRuntime().totalMemory());
+	}
+
 	public void nextStep(){
 		Map<String,Calendar> lastActionTS = new HashMap<String, Calendar>();
 		
 		// Increment Time 
-		int oldMonth = ts.get(Calendar.MONTH);
-		ts.add(Calendar.HOUR_OF_DAY, stepIntervalInHour);
-		if(oldMonth!=ts.get(Calendar.MONTH)){
-			becomeNewMonth();
-		}
-		List<Event> currentEvents = (events.containsKey(ts.getTimeInMillis()) ? events.remove(ts.getTimeInMillis()) : new ArrayList<Event>());
-		for (Long eventsTS : events.keySet()) {
-			if(eventsTS < ts.getTimeInMillis()){
-				System.err.println("missing ts "+fDate.format(new Date(eventsTS)));
+		incrementTime();
+		
+		// Get new users and their events
+		int newUser=0;
+		Set<String> newUserConnected = new HashSet<String>();
+		if(getFreeMemory()<0.25){
+			overheating=true;
+		}else{
+			overheating=false;
+			newUser = countArrivals(ts.get(Calendar.DAY_OF_WEEK),ts.get(Calendar.HOUR_OF_DAY));
+			for (int i = 0; i < newUser; i++) {
+				String id = generateId(ts,i);
+				newUserConnected.add(id);
+				generateFuturEvents(events, id);
 			}
 		}
-		
-		
-		// Get new users
-		int newUser = countArrivals(ts.get(Calendar.DAY_OF_WEEK),ts.get(Calendar.HOUR_OF_DAY));
-		Set<String> arrivalsNew = new HashSet<String>(newUser);
-		for (int i = 0; i < newUser; i++) {
-			String id = generateId(ts,i);
-			arrivalsNew.add(id);
-			generateFutureEvents(id);
-		}
-		connectedUsers.addAll(arrivalsNew);
+		List<Event> currentEvents = (events.containsKey(ts.getTimeInMillis()) ? events.remove(ts.getTimeInMillis()) : new ArrayList<Event>());
+		connectedUsers.addAll(newUserConnected);
 		
 		// Get known users
-		Set<String> arrivalsOld = new HashSet<String>();
+		Set<String> oldUserConnected = new HashSet<String>();
 		for (Event e : currentEvents) {
-			arrivalsOld.add(e.getUserId());
+			oldUserConnected.add(e.getUserId());
 			lastActionTS.put(e.getUserId(), e.getTs());
 		}
-		int oldUser = arrivalsOld.size();
-		connectedUsers.addAll(arrivalsOld);
-		if(debugMode) System.out.println("\tprevious="+(connectedUsers.size()-oldUser-newUser)+", returning="+oldUser+", new="+newUser+" -> "+connectedUsers.size());
+		connectedUsers.addAll(oldUserConnected);
+		if(debugMode) System.out.println("\tprevious="+(connectedUsers.size()-oldUserConnected.size()-newUser)+", returning="+oldUserConnected.size()+", new="+newUser+" -> "+connectedUsers.size());
 		
 		// Generate subscription
-		for (String id : arrivalsNew) {
+		for (String id : newUserConnected) {
 			Calendar arrivalTS = randomizeTS(ts, stepIntervalInHour*3600000l);
 			currentEvents.add(new EventSubscribe(id, arrivalTS));
 			currentEvents.add(new EventConnection(id, arrivalTS));
 			lastActionTS.put(id, arrivalTS);
 		}
-		if(debugMode) System.out.println("\tAdd "+arrivalsNew.size()+" subcription(s)");
+		if(debugMode) System.out.println("\tAdd "+newUserConnected.size()+" subcription(s)");
 		
 		// Generate all discussions
-		Set<String> arrivals = arrivalsOld;
+		/*
+		Set<String> arrivals = oldUserConnected;
 		Set<String> outcast = new HashSet<String>();
-		arrivals.addAll(arrivalsNew);
+		arrivals.addAll(newUserConnected);
 		int numDiscussion = 0;
 		for (String id1 : arrivals) {
 			if(!outcast.contains(id1)){
@@ -174,6 +229,7 @@ public class GlobalStat {
 			}
 		}
 		if(debugMode) System.out.println("\tAdd "+numDiscussion+" discussions");
+		*/
 		
 		// Get unsubcribes
 		int departureForever = 0;
@@ -187,8 +243,8 @@ public class GlobalStat {
 		}
 		if(debugMode) System.out.println("\tLose "+departureForever+" churnners");
 
-		// Get natural departures
-		int departureWillComeBack = countDepatures(oldUser+newUser-departureForever);
+		// Get disconnecteds
+		int departureWillComeBack = countDepatures(oldUserConnected.size()+newUser-departureForever);
 		Set<String> departures = new HashSet<String>();
 		Iterator<String> it = connectedUsers.iterator();
 		int i=0;
@@ -205,43 +261,33 @@ public class GlobalStat {
 		nbInscriptionInMonth += newUser;
 		ca += newUser * monthPrice;
 
-		storeEvents(currentEvents);
+		storeCurrentEvents(ts, currentEvents);
 	}
 
-	public String getNbConnected() {
-		return fInteger.format(connectedUsers.size()).trim();
-	}
-	public String getNbInscrit() {
-		return fInteger.format(nbInscrit).trim();
-	}
-	public String getNbInscriptionInMonth() {
-		return fInteger.format(nbInscriptionInMonth).trim();
-	}
-	public String getCa() {
-		return fDecimal.format(ca).trim() + " €";
-	}
-	public String getTs() {
-		return fDate.format(ts.getTime());
-	}
-	public String getAppName() {
-		return appName;
-	}
-	public String getBackgroundPath(){
-		return backgroundPath;
-	}
-	@Override
-	public String toString() {
-		String string = getTs()+" : "+getNbInscriptionInMonth()+"/"+getNbInscrit()+" inscrits (dont "+getNbConnected()+" connectés) pour un CA de "+getCa();
-		if(debugMode) string += " (A venir "+events.size()+" steps and departures :"+Arrays.toString(departuresEffective)+")";
-		string += " Free memory = "+new DecimalFormat("0.00'%'").format(100.0 * Runtime.getRuntime().freeMemory() / Runtime.getRuntime().maxMemory());
-		return string;
+	private void incrementTime() {
+		int oldMonth = ts.get(Calendar.MONTH);
+		ts.add(Calendar.HOUR_OF_DAY, stepIntervalInHour);
+		if(oldMonth!=ts.get(Calendar.MONTH)){
+			becomeNewMonth();
+		}
 	}
 
-	
+	/**
+	 * For given densities "arrivalsHourDensity" and "arrivalsDayDEnsity",
+	 * returns numbers of connection during stepIntervalInHour in oder to respect
+	 * an average of popularity connection per day over the week.
+	 * @param day : day of week
+	 * @param hour : hour of day
+	 * @return number of connection during next stepIntervalInHour hours
+	 */
 	private int countArrivals(int day, int hour) {
-		double incrementtalOfDay = incrementalDayArrivals[day-1] * 7 * popularity * stepIntervalInHour;
-		int incrementalHour = Double.valueOf(Math.ceil(incrementalHourArrivals[hour] * incrementtalOfDay)).intValue();
-		return incrementalHour;
+		double numberOfConnectionDuringAllDay = arrivalsDayDEnsity[day-1] * 7 * popularity;
+		int numberOfConnectionDuringStepIntervalHour = 0;
+		for (int i = 0; i < stepIntervalInHour; i++) {
+			int hourIndex = (hour+i>=arrivalsHourDensity.length ? (hour+i-arrivalsHourDensity.length) : (hour+i) );
+			numberOfConnectionDuringStepIntervalHour += Double.valueOf(Math.ceil(arrivalsHourDensity[hourIndex] * numberOfConnectionDuringAllDay)).intValue();
+		}
+		return numberOfConnectionDuringStepIntervalHour;
 	}
 
 	private int countDepatures(int arrivals) {
@@ -265,10 +311,32 @@ public class GlobalStat {
 		
 	}
 
-	private void generateFutureEvents(String id) {
-		long lifeTimeHours = (1+Double.valueOf(Math.random()*7200l*churn).intValue())*stepIntervalInHour;
+
+	/**
+	 * Add all futur events of given user in "events"
+	 * @param events
+	 * @param id
+	 */
+	private void generateFuturEvents(Map<Long, List<Event>> events, String id) {
+		// get churning time
+		long lifeTimeHours = generateRandomLifeTimeInMilliseconds();
 		Calendar unsubcribeTime = new GregorianCalendar();
-		unsubcribeTime.setTimeInMillis(ts.getTimeInMillis()+lifeTimeHours*3600000l);
+		unsubcribeTime.setTimeInMillis(ts.getTimeInMillis()+lifeTimeHours);
+		// get futur connections
+		generateFuturEventsConnection(events, id, unsubcribeTime);
+		// get unsubscribe event
+		long key = unsubcribeTime.getTimeInMillis();
+		List<Event> futurEvents;
+		if(events.containsKey(key)){
+			futurEvents = events.get(key);
+		}else{
+			futurEvents = new ArrayList<Event>();
+		}
+		futurEvents.add(new EventUnsubscribe(id, unsubcribeTime));
+		events.put(key, futurEvents);
+	}
+
+	private void generateFuturEventsConnection(Map<Long, List<Event>> events, String id, Calendar unsubcribeTime) {
 		Calendar movingTime =  new GregorianCalendar();
 		movingTime.setTimeInMillis(ts.getTimeInMillis());
 		movingTime.add(Calendar.HOUR_OF_DAY, (1+Double.valueOf(Math.random()*168).intValue())*stepIntervalInHour);
@@ -281,24 +349,13 @@ public class GlobalStat {
 				futurEvents = new ArrayList<Event>();
 			}
 			futurEvents.add(new EventConnection(id, randomizeTS(movingTime, stepIntervalInHour*3600000)));
+			events.put(key,futurEvents);
 			movingTime.add(Calendar.HOUR_OF_DAY, (1+Double.valueOf(Math.random()*168).intValue())*stepIntervalInHour);
 		}
-		long key = unsubcribeTime.getTimeInMillis();
-		List<Event> futurEvents;
-		if(events.containsKey(key)){
-			futurEvents = events.get(key);
-		}else{
-			futurEvents = new ArrayList<Event>();
-		}
-		futurEvents.add(new EventUnsubscribe(id, unsubcribeTime));
-		events.put(key, futurEvents);
 	}
-	
-	private void storeEvents(List<Event> currentEvents) {
-		// TODO Auto-generated method stub
-//		for (Event event : currentEvents) {
-//			System.out.println(event.generateEvent());
-//		}
+
+	private long generateRandomLifeTimeInMilliseconds() {
+		return(1+Double.valueOf(Math.random()*7200l*churn).intValue())*stepIntervalInHour*3600000l;
 	}
 	
 	
@@ -311,6 +368,91 @@ public class GlobalStat {
 
 	private static String generateId(Calendar ts, int index){
 		return Util.md5(Long.toString(ts.getTimeInMillis()+index));
+	}
+	
+
+
+//	private void storeFuturEvents(Map<String, List<Event>> futurEvents) {
+//		FileWriter fw = null;
+//		BufferedWriter bw = null;
+//		for (Entry<String, List<Event>> content : futurEvents.entrySet()) {
+//			try {
+//				File currentFile = new File(temporaryDirectory, content.getKey());
+//				if (!currentFile.exists()) {
+//					currentFile.createNewFile();
+//				}
+//				try {
+//					fw = new FileWriter(currentFile.getAbsoluteFile(),true);
+//					bw = new BufferedWriter(fw);
+//					boolean isFirst=true;
+//					for (Event event : content.getValue()) {
+//						if(isFirst){
+//							isFirst=false;
+//						}else{
+//							bw.write(String.format("%n"));
+//						}
+//						bw.write(event.generateEvent());
+//					}
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}finally{
+//					try {bw.close();} catch (IOException e) {e.printStackTrace();}
+//					try {fw.close();} catch (IOException e) {e.printStackTrace();}
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
+//
+//	private List<Event> relaodEvents(String stagingFile) {
+//		List<Event> reloadedEvents = new ArrayList<Event>();
+//		File currentFile = new File(stagingFile);
+//		if (currentFile.exists()) {
+//			FileReader fr = null;
+//			BufferedReader br = null;
+//			try {
+//				fr = new FileReader(currentFile);
+//				br = new BufferedReader(fr);
+//				String line = br.readLine();
+//				while (line != null) {
+//					reloadedEvents.add(Event.fromString(line));
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}finally {
+//				try {br.close();} catch (IOException e) {e.printStackTrace();}
+//				try {fr.close();} catch (IOException e) {e.printStackTrace();}
+//			}
+//		}
+//		return reloadedEvents;
+//	}
+	
+	private void storeCurrentEvents(Calendar ts2, List<Event> currentEvents) {
+		FileWriter fw = null;
+		BufferedWriter bw = null;
+		try {
+			File currentFile = new File(stagingDirectory, fDateShort.format(ts2.getTime())+".json");
+			if (!currentFile.exists()) {
+				currentFile.createNewFile();
+			}
+			fw = new FileWriter(currentFile.getAbsoluteFile(),false);
+			bw = new BufferedWriter(fw);
+			boolean isFirst=true;
+			for (Event event : currentEvents) {
+				if(isFirst){
+					isFirst=false;
+				}else{
+					bw.write(String.format("%n"));
+				}
+				bw.write(event.generateEvent());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			try {bw.close();} catch (IOException e) {e.printStackTrace();}
+			try {fw.close();} catch (IOException e) {e.printStackTrace();}
+		}
 	}
 
 }

@@ -2,9 +2,9 @@ package metier;
 
 import java.util.Calendar;
 
-public class EventKiss extends Event {
+public class EventFlower extends Event {
 
-	public EventKiss(String userId, Calendar ts) {
+	public EventFlower(String userId, Calendar ts) {
 		super(userId,ts);
 	}
 
@@ -18,6 +18,6 @@ public class EventKiss extends Event {
 
 	@Override
 	protected String getEventName() {
-		return "kiss";
+		return "flower";
 	}
 }

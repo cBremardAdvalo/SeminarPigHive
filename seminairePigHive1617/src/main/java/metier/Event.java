@@ -55,6 +55,12 @@ public abstract class Event {
 	}
 	
 	public boolean isKiss(){
-		return this instanceof EventKiss;
+		return this instanceof EventFlower;
+	}
+
+
+	public static Event fromString(String line) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
