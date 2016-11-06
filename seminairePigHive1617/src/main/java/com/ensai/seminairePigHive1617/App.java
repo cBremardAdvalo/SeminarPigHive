@@ -35,8 +35,8 @@ public class App
     	globalMap.put(KEY_MONTH_PRICE,"10.5");
     	globalMap.put(KEY_APP_NAME,"Ensai Tchat");
     	globalMap.put(KEY_FLOWER_PRICE,"0.50");
-    	globalMap.put(KEY_POPULARITY,"1000");
-    	globalMap.put(KEY_CHURN,"48");
+    	globalMap.put(KEY_POPULARITY,"100");
+    	globalMap.put(KEY_CHURN,"3");
     	//globalMap.put(KEY_STAGING_PATH,"/home/corentin/Bureau/test");
     	globalMap.put(KEY_STAGING_PATH,"C:\\Users\\pORTABLE\\Downloads\\testSeminarPigHive");
 //    	new Activity01().launch(globalMap);

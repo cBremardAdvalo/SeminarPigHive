@@ -157,7 +157,11 @@ public class CopyOfActivity06_old extends JPanel {
 		while(frame.isVisible()){
 			try {Thread.sleep(speed);} catch (InterruptedException e) {}
 			if(!pause){
-				gs.nextStep();
+				try {
+					gs.nextStep();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				currentTime.setText(gs.getTs());
 				currentInscripts.setText(gs.getNbInscrit());
 				currentActifs.setText(gs.getNbConnected());

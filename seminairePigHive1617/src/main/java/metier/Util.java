@@ -6,7 +6,6 @@ import java.security.NoSuchAlgorithmException;
 
 public class Util {
 	
-	
 	public static String md5(String s){
 		String output = null;
 		try {
@@ -18,5 +17,14 @@ public class Util {
 		}
 		return output;
 	}
-
+	
+	public static int stringToInt(String s){
+		int intValue = 0;
+		byte[] bytes = s.getBytes();
+		for (byte b : bytes ) {
+			intValue += (int)b;
+		}
+		return intValue;
+	}
+	
 }

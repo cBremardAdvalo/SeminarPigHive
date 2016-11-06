@@ -12,7 +12,6 @@ public class EventDiscussionStart extends Event {
 
 	@Override
 	public String toString(String seed) {
-		// TODO Auto-generated method stub
 		StringBuilder s = new StringBuilder();
 		s.append("{\"askedBy\":\"")
 		.append(userId)

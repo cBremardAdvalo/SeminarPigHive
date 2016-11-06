@@ -130,13 +130,18 @@ public class Activity06 extends JPanel {
 		while(frame.isVisible()){
 			try {Thread.sleep(speed);} catch (InterruptedException e) {}
 			if(!pause){
-				gs.nextStep();
+				try {
+					gs.nextStep();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				warningZone.setVisible(gs.isOverheating());
 				currentTime.setText(gs.getTs());
 				currentInscripts.setText(gs.getNbInscrit());
 				currentActifs.setText(gs.getNbConnected());
 				currentCA.setText(gs.getCa());
-				System.out.println(gs);
+			}else{
+				try {Thread.sleep(1000);} catch (InterruptedException e) {}
 			}
 		}
 		return this.getClass().getName();
