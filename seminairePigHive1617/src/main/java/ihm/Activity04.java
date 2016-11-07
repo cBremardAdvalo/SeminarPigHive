@@ -89,6 +89,7 @@ public class Activity04 extends Activity<String> {
         globalMap.put(App.KEY_FLOWER_PRICE, fields[1].getTextfield().getText());
         globalMap.put(App.KEY_POPULARITY, fields[2].getTextfield().getText());
         globalMap.put(App.KEY_CHURN, fields[3].getTextfield().getText());
+        frame.setVisible(false);
 		return this.getClass().getName();
 	}
 

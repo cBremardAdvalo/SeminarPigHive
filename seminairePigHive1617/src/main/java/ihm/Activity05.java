@@ -15,12 +15,13 @@ import com.ensai.seminairePigHive1617.App;
 
 public class Activity05 extends Activity<String> {
 	private static final long serialVersionUID = 1L;
-	private JPanel jpanel;
-	private JFileChooser fc;
+	private final JPanel jpanel;
+	private final JFileChooser fc;
+	
 	  // Create a form with the specified labels, tooltips, and sizes.
 	public Activity05() {
 		jpanel = new JPanel(new BorderLayout());
-        JLabel lab = new JLabel("Veuillez choisir une image de fond", JLabel.CENTER);
+        JLabel lab = new JLabel("Veuillez choisir un dossier pour stocker les données", JLabel.CENTER);
         jpanel.add(lab , BorderLayout.CENTER);
 		fc = new JFileChooser();
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -32,10 +33,9 @@ public class Activity05 extends Activity<String> {
 	 
 	@Override
 	public String run(Map<String, String> globalMap) {
-		final Activity05 form = this;
 	    final JFrame frame = new JFrame("Setting 4/4");
 	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    frame.getContentPane().add(form.jpanel, BorderLayout.NORTH);
+	    frame.getContentPane().add(jpanel, BorderLayout.NORTH);
 	    JPanel panel = new JPanel();
 	    JButton submit = new JButton("Finish");
 	    submit.addActionListener(new ActionListener() {
@@ -44,14 +44,21 @@ public class Activity05 extends Activity<String> {
 	      }
 	    });
 	    panel.add(submit);
+		System.out.println(Thread.currentThread().getStackTrace()[1]);
 	    frame.getContentPane().add(panel, BorderLayout.SOUTH);
+		System.out.println(Thread.currentThread().getStackTrace()[1]);
 	    frame.pack();
+		System.out.println(Thread.currentThread().getStackTrace()[1]);
         frame.setLocationRelativeTo(null);
+		System.out.println(Thread.currentThread().getStackTrace()[1]);
 	    frame.setVisible(true);
+		System.out.println(Thread.currentThread().getStackTrace()[1]);
         while(frame.isVisible()){
         	sleep(10);
         }
+		System.out.println(Thread.currentThread().getStackTrace()[0]);
         globalMap.put(App.KEY_STAGING_PATH,fc.getSelectedFile().getPath());
+		System.out.println(Thread.currentThread().getStackTrace()[0]);
 		return this.getClass().getName();
 	}
 

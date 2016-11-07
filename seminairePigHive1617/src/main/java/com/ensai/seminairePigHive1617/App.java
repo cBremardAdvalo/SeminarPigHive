@@ -42,8 +42,8 @@ public class App
 //    	new Activity01().launch(globalMap);
 //    	new Activity02().launch(globalMap);
 //    	/*new Activity03().launch(globalMap);*/
-//    	new Activity04().launch(globalMap);
-//    	new Activity05().launch(globalMap);
+    	new Activity04().launch(globalMap);
+    	new Activity05().launch(globalMap);
     	GlobalStat gs = GlobalStat.getInstance(
     			globalMap.get(KEY_APP_NAME),
     			globalMap.get(KEY_TCHAT_PICTURE),
