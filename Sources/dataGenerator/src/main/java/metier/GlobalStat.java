@@ -198,7 +198,7 @@ public class GlobalStat {
 							} else if("discussion_start".equals(event.getEventName())){
 							} else if("discussion_end".equals(event.getEventName())){
 							} else {
-								System.err.println("Dual event "+event.getEventName()+" doesn't increment recettes");
+								if(Math.random()<0.01) System.err.println("Dual event "+event.getEventName()+" doesn't increment recettes. Add it here " + Thread.currentThread().getStackTrace()[1].toString());
 							}
 						}
 					}

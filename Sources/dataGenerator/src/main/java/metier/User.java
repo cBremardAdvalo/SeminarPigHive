@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+import metier.lists.Cities;
+
 public class User {
 	private final double maximalSessionDurationMillisecondes = 3600000.0+Double.valueOf(Math.random()*36000000).intValue();
 	private final String id;
@@ -107,6 +109,24 @@ public class User {
 		int value1 = Util.stringToInt(id);
 		int value2 = Util.stringToInt(user.getId());
 		double score3 = Math.abs(Double.valueOf(value1-value2)) /Double.valueOf( Math.max(value1, value2));
-		return 1d - ((9d*score1 + 10d*score2 + score3 ) / 30d);
+		double score4 = 1;
+		try {
+			String geopoint1 = Cities.get(id)[1];
+			String geopoint2 = Cities.get(user.getId())[1];
+			score4 = getDistance(geopoint1,geopoint2);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return 1d - ((6d*score1 + 10d*score2 + score3 + 3d*score4) / 20d);
 	}
+	
+	private double getDistance(String geopoint1, String geopoint2){
+		String[] str1 = geopoint1.split(",");
+		String[] str2 = geopoint2.split(",");
+		double lat1 = Double.parseDouble(str1[0]);
+		double lng1 = Double.parseDouble(str1[1]);
+		double lat2 = Double.parseDouble(str2[0]);
+		double lng2 = Double.parseDouble(str2[1]);
+		return Math.sqrt(Math.pow(lat1-lat2,2)+Math.pow(lng1-lng2,2)) / 726.3858416d;
+		}
 }

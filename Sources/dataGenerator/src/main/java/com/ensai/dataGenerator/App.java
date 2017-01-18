@@ -36,13 +36,13 @@ public class App
     	globalMap.put(KEY_FLOWER_PRICE,"0.50");
     	globalMap.put(KEY_POPULARITY,"100");
     	globalMap.put(KEY_CHURN,"3");
-    	globalMap.put(KEY_STAGING_PATH,"/home/corentin/Bureau/test");
-//    	globalMap.put(KEY_STAGING_PATH,"C:\\Users\\pORTABLE\\Downloads\\testSeminarPigHive");
-    	new Activity01().launch(globalMap);
-    	new Activity02().launch(globalMap);
-    	/*new Activity03().launch(globalMap);*/
-    	new Activity04().launch(globalMap);
-    	new Activity05().launch(globalMap);
+//    	globalMap.put(KEY_STAGING_PATH,"/home/corentin/Bureau/test");
+    	globalMap.put(KEY_STAGING_PATH,"C:\\Users\\pORTABLE\\Downloads\\testSeminarPigHive");
+//    	new Activity01().launch(globalMap);
+//    	new Activity02().launch(globalMap);
+//    	/*new Activity03().launch(globalMap);*/
+//    	new Activity04().launch(globalMap);
+//    	new Activity05().launch(globalMap);
     	GlobalStat gs = GlobalStat.getInstance(
     			globalMap.get(KEY_APP_NAME),
     			globalMap.get(KEY_TCHAT_PICTURE),

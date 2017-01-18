@@ -2,6 +2,7 @@ package metier;
 
 import java.util.Calendar;
 
+import metier.lists.Cities;
 import metier.lists.FirstnameFeminin;
 import metier.lists.FirstnameMasculin;
 import metier.lists.FirstnameUnknown;
@@ -15,6 +16,7 @@ public class EventSubscribe extends Event {
 
 	@Override
 	public String toString(String seed) {
+		String[] city = Cities.get(userId);
 		int sexe = Factory.buildSexe(userId);
 		StringBuilder s = new StringBuilder();
 		s.append("{\"age\":")
@@ -25,7 +27,11 @@ public class EventSubscribe extends Event {
 		.append(Lastname.get(userId))
 		.append("\",\"sexe\":")
 		.append(sexe)
-		.append("}");
+		.append(",\"city\":\"")
+		.append(city[0])
+		.append("\",\"geopoint\":\"")
+		.append(city[1])
+		.append("\"}");
 		return s.toString();
 	}
 
