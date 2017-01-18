@@ -1,7 +1,7 @@
 # SeminarPigHive
 
 ## I. Installation de l'environnement de travail sur Ubuntu (Hadoop, Pig et Hive)
-source : https://hadoop.apache.org/docs/r2.7.2/hadoop-project-dist/hadoop-common/SingleCluster.html
+source : https://hadoop.apache.org/docs/r2.7.3/hadoop-project-dist/hadoop-common/SingleCluster.html
 
 ### a. pré-requis
 ```
@@ -13,7 +13,7 @@ sudo apt-get --no-install-recommends install maven
 ```
 cd ~/Download || cd ~/Downloads || cd ~/Téléchargements
 
-wget http://apache.crihan.fr/dist/hadoop/common/stable2/hadoop-2.7.2.tar.gz
+wget http://apache.crihan.fr/dist/hadoop/common/stable2/hadoop-2.7.3.tar.gz
 wget http://apache.mindstudios.com/pig/pig-0.15.0/pig-0.15.0.tar.gz
 wget http://apache.claz.org/hive/stable/apache-hive-1.2.1-bin.tar.gz
 ```
@@ -21,14 +21,15 @@ wget http://apache.claz.org/hive/stable/apache-hive-1.2.1-bin.tar.gz
 ```
 mkdir ~/hadoop
 
-tar -xzvf hadoop-2.7.2.tar.gz -C ~/hadoop && rm hadoop-2.7.2.tar.gz
+tar -xzvf hadoop-2.7.3
+.tar.gz -C ~/hadoop && rm hadoop-2.7.3.tar.gz
 tar -xzvf pig-0.15.0.tar.gz -C ~/hadoop && rm pig-0.15.0.tar.gz
 tar -xzvf apache-hive-1.2.1-bin.tar.gz -C ~/hadoop && rm apache-hive-1.2.1-bin.tar.gz
 ```
 ### d. Création des variables d'environnement
 ```
 export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_102/jre
-export HADOOP_HOME=~/hadoop/hadoop-2.7.2
+export HADOOP_HOME=~/hadoop/hadoop-2.7.3
 export PIG_HOME=~/hadoop/pig-0.15.0
 export HIVE_HOME=~/hadoop/apache-hive-1.2.1-bin
 export HCAT_HOME=~/hadoop/apache-hive-1.2.1-bin/hcatalog
