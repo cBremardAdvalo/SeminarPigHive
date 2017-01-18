@@ -84,10 +84,10 @@ public class Activity06 extends JPanel {
 	    JPanel j3 = new JPanel(new GridLayout(1,1));
 	    JPanel j4 = new JPanel(new GridLayout(3,1));
 	    JPanel j5 = new JPanel(new GridLayout(1,1));
-	    j11.add(buildJLabel("Coût mensuels : ", JLabel.LEFT));j12.add(buildJLabel(gs.getMonthCost(), JLabel.LEFT));
+	    j11.add(buildJLabel("Coût mensuel : ", JLabel.LEFT));j12.add(buildJLabel(gs.getMonthCost(), JLabel.LEFT));
 	    j11.add(buildJLabel("Abonnement : ", JLabel.LEFT));j12.add(buildJLabel(gs.getMonthPrice(), JLabel.LEFT));
 	    j11.add(buildJLabel("Coût d'une fleur : ", JLabel.LEFT));j12.add(buildJLabel(gs.getFlowerPrice(), JLabel.LEFT));
-	    j11.add(buildJLabel("Nombre d'incripstions journalières : ", JLabel.LEFT));j12.add(buildJLabel(gs.getPopularity(), JLabel.LEFT));
+	    j11.add(buildJLabel("Nombre d'inscriptions journalières : ", JLabel.LEFT));j12.add(buildJLabel(gs.getPopularity(), JLabel.LEFT));
 	    j11.add(buildJLabel("Durée de vie : ", JLabel.LEFT));j12.add(buildJLabel(gs.getChurn(), JLabel.LEFT));
 	    j1.add(j11);j1.add(j12);
 	    

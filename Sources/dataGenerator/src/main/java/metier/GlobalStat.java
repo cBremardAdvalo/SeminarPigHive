@@ -192,6 +192,15 @@ public class GlobalStat {
 					Events dualEvents = user1.generateDualEvents(user2);
 					if(dualEvents!=null && ! dualEvents.isEmpty()){
 						events.addAll(dualEvents);
+						for (Event event : dualEvents) {
+							if("flower".equals(event.getEventName())){
+								ca += flowerPrice;
+							} else if("discussion_start".equals(event.getEventName())){
+							} else if("discussion_end".equals(event.getEventName())){
+							} else {
+								System.err.println("Dual event "+event.getEventName()+" doesn't increment recettes");
+							}
+						}
 					}
 				}
 				for (User user2 : recomingUserConnected) {
