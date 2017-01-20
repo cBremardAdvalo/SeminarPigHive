@@ -1,10 +1,3 @@
-export HIVE_CONF_DIR=$HIVE_HOME/conf
-export HIVE_AUX_JARS_PATH=$HIVE_HOME/hcatalog/share/hcatalog/hive-hcatalog-core.jar
-
--- export HIVE_CONF_DIR=/usr/hdp/current/hive-client/conf
--- export HIVE_AUX_JARS_PATH=/usr/hdp/current/hive-webhcat/share/hcatalog/hive-hcatalog-core.jar
-
-
 
 %default dir 'file:///home/corentin/Bureau/test'
 
