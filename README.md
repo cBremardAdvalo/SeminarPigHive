@@ -33,6 +33,9 @@ export HADOOP_HOME=~/hadoop/hadoop-2.7.3
 export PIG_HOME=~/hadoop/pig-0.15.0
 export HIVE_HOME=~/hadoop/apache-hive-1.2.1-bin
 export HCAT_HOME=~/hadoop/apache-hive-1.2.1-bin/hcatalog
+export HIVE_CONF_DIR=$HIVE_HOME/conf
+export HIVE_AUX_JARS_PATH=$HIVE_HOME/hcatalog/share/hcatalog/hive-hcatalog-core.jar
+ 
 ```
 ### e. Création des applicatifs
 ```
