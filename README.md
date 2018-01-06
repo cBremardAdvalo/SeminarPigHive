@@ -10,10 +10,11 @@ sudo apt-get install rsync
 sudo apt-get --no-install-recommends install maven
 ```
 ### b. Téléchargements des sources
-```
+```bash
 cd ~/Download || cd ~/Downloads || cd ~/Téléchargements
 
-wget http://apache.crihan.fr/dist/hadoop/common/stable2/hadoop-2.7.3.tar.gz
+wget http://apache.crihan.fr/dist/hadoop/common/stable2/hadoop-2.9.0.tar.gz 
+http://apache.crihan.fr/dist/hadoop/common/stable2/hadoop-2.7.3.tar.gz
 wget http://apache.mindstudios.com/pig/pig-0.15.0/pig-0.15.0.tar.gz
 wget http://apache.claz.org/hive/stable/apache-hive-1.2.1-bin.tar.gz
 ```
