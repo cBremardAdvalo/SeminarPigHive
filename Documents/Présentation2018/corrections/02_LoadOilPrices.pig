@@ -1,7 +1,6 @@
 DEFINE XPath org.apache.pig.piggybank.evaluation.xml.XPath();
 
-A0 = LOAD 'PrixCarburants_instantane.xml' USING org.apache.pig.piggybank.storage.XMLLoader('pdv') as (pdv:chararray);
-A = LIMIT A0 5;
+A = LOAD 'PrixCarburants_instantane.xml' USING org.apache.pig.piggybank.storage.XMLLoader('pdv') as (pdv:chararray);
 B = FOREACH A GENERATE
       XPath(pdv,'pdv/@id') as id,
       (double)XPath(pdv,'pdv/@latitude') as latitude,
@@ -28,6 +27,3 @@ C = FOREACH B {
   GENERATE id, latitude, longitude, cp, pop, adresse, ville, TMP_PRICES_B as prices;
 }
 STORE C INTO 'oil_price' USING org.apache.hive.hcatalog.pig.HCatStorer();
-
-
-Caused by: java.lang.ClassNotFoundException: org.datanucleus.exceptions.NucleusException

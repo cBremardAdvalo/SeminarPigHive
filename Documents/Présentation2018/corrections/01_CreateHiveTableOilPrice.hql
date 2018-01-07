@@ -8,6 +8,3 @@ CREATE TABLE oil_price (
   ville string,
   prices array<struct<id: string, nom: string, valeur: double, maj: timestamp>>
 );
-
-
-LOCATION '~/hadoop/hive_warehouse';

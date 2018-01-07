@@ -26,8 +26,6 @@ mkdir ~/hadoop
 sudo mkdir /user
 sudo chown -R $USER:$USER /user
 mkdir -p  /user/hive/warehouse/
-
-
 chmod -R 777  /user/hive
 
 tar -xzvf hadoop-2.9.0.tar.gz -C ~/hadoop && rm hadoop-2.9.0.tar.gz
