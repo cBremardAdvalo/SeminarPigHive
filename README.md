@@ -58,7 +58,7 @@ echo "export HIVE_HOME=~/hadoop/apache-hive-1.2.2-bin" >> pig
 echo "export HCAT_HOME=~/hadoop/apache-hive-1.2.2-bin/hcatalog" >> pig
 echo "export HIVE_CONF_DIR=$HIVE_HOME/conf" >> pig
 echo "export HIVE_AUX_JARS_PATH=$HIVE_HOME/hcatalog/share/hcatalog/hive-hcatalog-core.jar" >> pig
-echo "$PIG_HOME/bin/pig -Dpig.additional.jars=$PIG_HOME/../piggybank-0.17.0.jar:$HIVE_HOME/lib/datanucleus-*.jar:$HIVE_HOME/lib/derby-10.10.2.0.jar -x local -useHCatalog" >> pig
+echo "~/hadoop/pig-0.17.0/bin/pig -Dpig.additional.jars=$PIG_HOME/../piggybank-0.17.0.jar:$HIVE_HOME/lib/datanucleus-*.jar:$HIVE_HOME/lib/derby-10.10.2.0.jar -x local -useHCatalog" >> pig
 chmod +x pig
 
 # Create shell script to run Hive
@@ -68,7 +68,7 @@ echo "export HIVE_HOME=~/hadoop/apache-hive-1.2.2-bin" >> hive
 echo "export HCAT_HOME=~/hadoop/apache-hive-1.2.2-bin/hcatalog" >> hive
 echo "export HIVE_CONF_DIR=$HIVE_HOME/conf" >> hive
 echo "export HIVE_AUX_JARS_PATH=$HIVE_HOME/hcatalog/share/hcatalog/hive-hcatalog-core.jar" >> hive
-echo "$HIVE_HOME/bin/hive" >> hive
+echo "~/hadoop/apache-hive-1.2.2-bin/bin/hive" >> hive
 chmod +x hive
 
 # Update run file "hadoop-env.sh" with variable "JAVA_HOME"
