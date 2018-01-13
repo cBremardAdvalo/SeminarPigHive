@@ -46,31 +46,37 @@ ls JAVA_HOME=/usr/lib/jvm/
 export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_102/jre
 ```
 
- * Création des variables pour Hadoop, Pig et Hive :
-```shell
-export HADOOP_HOME=~/hadoop/hadoop-2.9.0
-export PIG_HOME=~/hadoop/pig-0.17.0
-export HIVE_HOME=~/hadoop/apache-hive-1.2.2-bin
-export HCAT_HOME=~/hadoop/apache-hive-1.2.2-bin/hcatalog
-export HIVE_CONF_DIR=$HIVE_HOME/conf
-export HIVE_AUX_JARS_PATH=$HIVE_HOME/hcatalog/share/hcatalog/hive-hcatalog-core.jar
-```
-
 ### e. Création des applicatifs
 ```shell
+# Go to workspace
 cd ~/hadoop
 
-echo "$PIG_HOME/bin/pig -Dpig.additional.jars=$PIG_HOME/../piggybank-0.17.0.jar:$HIVE_HOME/lib/datanucleus-*.jar:$HIVE_HOME/lib/derby-10.10.2.0.jar -x local -useHCatalog" > pig
-echo "$HIVE_HOME/bin/hive" > hive
-
+# Create shell script to run Pig
+echo "export HADOOP_HOME=~/hadoop/hadoop-2.9.0" > pig
+echo "export PIG_HOME=~/hadoop/pig-0.17.0" >> pig
+echo "export HIVE_HOME=~/hadoop/apache-hive-1.2.2-bin" >> pig
+echo "export HCAT_HOME=~/hadoop/apache-hive-1.2.2-bin/hcatalog" >> pig
+echo "export HIVE_CONF_DIR=$HIVE_HOME/conf" >> pig
+echo "export HIVE_AUX_JARS_PATH=$HIVE_HOME/hcatalog/share/hcatalog/hive-hcatalog-core.jar" >> pig
+echo "$PIG_HOME/bin/pig -Dpig.additional.jars=$PIG_HOME/../piggybank-0.17.0.jar:$HIVE_HOME/lib/datanucleus-*.jar:$HIVE_HOME/lib/derby-10.10.2.0.jar -x local -useHCatalog" >> pig
 chmod +x pig
+
+# Create shell script to run Hive
+echo "export HADOOP_HOME=~/hadoop/hadoop-2.9.0" > hive
+echo "export PIG_HOME=~/hadoop/pig-0.17.0" >> hive
+echo "export HIVE_HOME=~/hadoop/apache-hive-1.2.2-bin" >> hive
+echo "export HCAT_HOME=~/hadoop/apache-hive-1.2.2-bin/hcatalog" >> hive
+echo "export HIVE_CONF_DIR=$HIVE_HOME/conf" >> hive
+echo "export HIVE_AUX_JARS_PATH=$HIVE_HOME/hcatalog/share/hcatalog/hive-hcatalog-core.jar" >> hive
+echo "$HIVE_HOME/bin/hive" >> hive
 chmod +x hive
 
-
+# Update run file "hadoop-env.sh" with variable "JAVA_HOME"
 mv $HADOOP_HOME/etc/hadoop/hadoop-env.sh $HADOOP_HOME/etc/hadoop/initial_hadoop-env.sh
 JAVA_HOME_ESCAPED=$(echo $JAVA_HOME | sed -e "s/\//\\\\\//g")
 cat $HADOOP_HOME/etc/hadoop/initial_hadoop-env.sh | sed -e "s/.*export JAVA_HOME.*= *$/export JAVA_HOME=$JAVA_HOME_ESCAPED/g" > $HADOOP_HOME/etc/hadoop/hadoop-env.sh
 
+# Generate ssh key
 ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
 cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
 chmod 0600 ~/.ssh/authorized_keys
