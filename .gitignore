@@ -1,7 +1,8 @@
 
 .metadata
-bin/
-tmp/
+pigudf/bin/
+pigudf/target/
+pigudf/tmp/
 *.tmp
 *.bak
 *.swp
@@ -12,42 +13,104 @@ local.properties
 .recommenders
 
 # External tool builders
-.externalToolBuilders/
+pigudf/.externalToolBuilders/
 
 # Locally stored "Eclipse launch configurations"
-*.launch
+pigudf/*.launch
 
 # PyDev specific (Python IDE for Eclipse)
-*.pydevproject
+pigudf/*.pydevproject
 
 # CDT-specific (C/C++ Development Tooling)
-.cproject
+pigudf/.cproject
 
 # CDT- autotools
-.autotools
+pigudf/.autotools
 
 # Java annotation processor (APT)
-.factorypath
+pigudf/.factorypath
 
 # PDT-specific (PHP Development Tools)
-.buildpath
+pigudf/.buildpath
 
 # sbteclipse plugin
-.target
+pigudf/.target
 
 # Tern plugin
-.tern-project
+pigudf/.tern-project
 
 # TeXlipse plugin
-.texlipse
+pigudf/.texlipse
 
 # STS (Spring Tool Suite)
-.springBeans
+pigudf/.springBeans
 
 # Code Recommenders
-.recommenders/
+pigudf/.recommenders/
 
 # Scala IDE specific (Scala & Java development for Eclipse)
-.cache-main
-.scala_dependencies
-.worksheet
+pigudf/.cache-main
+pigudf/.scala_dependencies
+pigudf/.worksheet
+
+
+# Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
+# Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
+
+# User-specific stuff:
+pigudf/.idea/**/workspace.xml
+pigudf/.idea/**/tasks.xml
+pigudf/.idea/dictionaries
+
+# Sensitive or high-churn files:
+pigudf/.idea/**/dataSources/
+pigudf/.idea/**/dataSources.ids
+pigudf/.idea/**/dataSources.xml
+pigudf/.idea/**/dataSources.local.xml
+pigudf/.idea/**/sqlDataSources.xml
+pigudf/.idea/**/dynamic.xml
+pigudf/.idea/**/uiDesigner.xml
+
+# Gradle:
+pigudf/.idea/**/gradle.xml
+pigudf/.idea/**/libraries
+
+# CMake
+cmake-build-debug/
+cmake-build-release/
+
+# Mongo Explorer plugin:
+pigudf/.idea/**/mongoSettings.xml
+
+## File-based project format:
+*.iws
+
+## Plugin-specific files:
+
+# IntelliJ
+pigudf/out/
+
+# mpeltonen/sbt-idea plugin
+pigudf/.idea_modules/
+
+# JIRA plugin
+atlassian-ide-plugin.xml
+
+# Cursive Clojure plugin
+pigudf/.idea/replstate.xml
+
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+pigudf/pigudf\.iml
+
+pigudf/\.idea/modules\.xml
+
+pigudf/\.idea/misc\.xml
+
+pigudf/\.idea/encodings\.xml
+
+pigudf/\.idea/compiler\.xml

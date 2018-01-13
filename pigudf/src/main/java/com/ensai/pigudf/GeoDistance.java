@@ -21,9 +21,9 @@ public class GeoDistance extends EvalFunc<Integer> {
 			double lng1 = (Double) input.get(1);
 			double lat2 = (Double) input.get(2);
 			double lng2 = (Double) input.get(3);
-			Integer earthRadiusKm = (Integer) input.get(4); // km
-			if (earthRadiusKm == null) {
-				earthRadiusKm = EARTH_RADIUS_KM;
+			Integer earthRadiusKm = EARTH_RADIUS_KM;
+			if (input.size()==5) {
+				earthRadiusKm = (Integer) input.get(4); // km;
 			}
 			distance = getDistance(lat1, lng1, lat2, lng2, earthRadiusKm);
 		}
@@ -35,7 +35,7 @@ public class GeoDistance extends EvalFunc<Integer> {
 		if (input == null) {
 			isOK = false;
 			LOGGER.error("Cannot compute geospace distance when input is NULL.");
-		} else if (input.size() != 5) {
+		} else if (input.size()<4 || input.size()>5) {
 			isOK = false;
 			LOGGER.error("Cannot compute geospace distance with " + input
 					+ ". Expecting (latitude_1,longitude_1,latitude_2,longitude_2,earth_radius_in_km).");
@@ -51,7 +51,7 @@ public class GeoDistance extends EvalFunc<Integer> {
 		} else if (input.get(3) == null || !(input.get(3) instanceof Double)) {
 			isOK = false;
 			LOGGER.error("Incorrect value for parameter longitude_2. Expecting not null double.");
-		} else if (input.get(4) != null && !(input.get(4) instanceof Integer)) {
+		} else if (input.size()==5 && (input.get(4) != null && !(input.get(4) instanceof Integer))) {
 			isOK = false;
 			LOGGER.error("Incorrect value for parameter earth_radius. Expecting null or integer.");
 		}
