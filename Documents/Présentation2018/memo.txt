@@ -1,0 +1,32 @@
+BrainStorm : Quel est votre sujet de stage 3A et 2A ?
+BrainStorm : Quelles technos allez-vous utiliser ?
+Vote : Quelles technos connaissez-vous ?
+  Spark ou Storm
+  Pig ou Hive
+  Hbase ou Cassandra
+  Redis
+  Kafka, ActiveMQ ou RabbitMQ
+  Docker, Rancher ou Kubernetes
+  MLlib, Mahout ou Scikit-Learn
+Quizz : Introduction au Big Data
+  QCU: Le Big Data est-il adapté pour le temps-réel ?
+  QCM: Qu'est-ce que le NoSql ?
+    * Tout ce qui n'est pas base de données relationnelle
+    * Une technique de parallélisation des calculs
+    * Tout ce qui ne respecte pas les propriétés ACID
+  Catégorisation : Quelles sont ces bases de données ?
+    Elastic-search  Stockage documents
+    Cassandra    Stockage clé-valeur
+    Hbase       Stockage clé-valeur
+    MySql       Relationnelle
+    Neo4J       Stockage de graphs
+    MongDB      Stockage documents
+    PostgreSQL  Relationnelle
+    Redis       Stockage clé-valeur
+  QCM: Qu'est-ce que le map-reduce ?
+    * Une technique de parallélisation des calculs
+    * Un procédé qui permet d'être scalable
+    * Une base de données
+    * Un langage de requêtage des données
+    * Une technologie NoSql
+  QCM: 

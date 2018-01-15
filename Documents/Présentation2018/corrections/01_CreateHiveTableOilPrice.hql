@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS oil_price;
 CREATE TABLE oil_price (
   id string,
   latitude double,

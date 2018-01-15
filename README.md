@@ -99,3 +99,27 @@ sh ~/hadoop/hive
 ```
 sh ~/hadoop/pig
 ```
+
+
+<!--
+```shell
+mkdir -p ~/hadoop/hue
+cd ~/hadoop/hue
+wget https://www.dropbox.com/s/auwpqygqgdvu1wj/hue-4.1.0.tgz?dl=0 -O hue-4.1.0.tgz       #(46 M)
+
+tar -xvzf hue-4.1.0.tgz
+
+cd hue-4.1.0/
+
+sudo mkdir -p /usr/local/hue
+sudo chown -R $USER:$USER /usr/local/hue
+
+sudo apt-get install git ant gcc g++ libffi-dev libkrb5-dev libmysqlclient-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libssl-dev libxml2-dev libxslt-dev make maven libldap2-dev python-dev python-setuptools libgmp3-dev
+sudo apt-get install libldap2-dev
+# sudo apt-get remove python-cffi-backend
+sudo apt-get upgrade python3-cffi-backend
+
+make install
+
+/usr/local/hue/build/env/bin/supervisor
+``` --> 
