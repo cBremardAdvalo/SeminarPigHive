@@ -31,7 +31,7 @@ chmod -R 777  /user/hive
 tar -xzvf hadoop-2.9.0.tar.gz -C ~/hadoop && rm hadoop-2.9.0.tar.gz
 tar -xzvf pig-0.17.0.tar.gz -C ~/hadoop && rm pig-0.17.0.tar.gz
 tar -xzvf apache-hive-1.2.2-bin.tar.gz -C ~/hadoop && rm apache-hive-1.2.2-bin.tar.gz
-unzip PrixCarburants_instantane.xml.zip -d ~/hadoop && rm PrixCarburants_instantane.xml.zip
+unzip PrixCarburants_instantane.zip -d ~/hadoop && rm PrixCarburants_instantane.zip
 mv piggybank-0.17.0.jar ~/hadoop/
 ```
 ### d. Création des variables d'environnement
@@ -42,8 +42,8 @@ echo $JAVA_HOME
 
  * Si ***$JAVA_HOME*** est non renseigné :
 ```shell
-ls JAVA_HOME=/usr/lib/jvm/
-export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_102/jre
+ls /usr/lib/jvm/
+export JAVA_HOME=/usr/lib/jvm/default-6java/jre
 ```
 
 ### e. Création des applicatifs
