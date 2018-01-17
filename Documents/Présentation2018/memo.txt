@@ -1,5 +1,12 @@
+Qui a un proche qui travaille dans la stat ? Quel poste ? Quelles outils ?
+
 BrainStorm : Quel est votre sujet de stage 3A et 2A ?
+
 BrainStorm : Quelles technos allez-vous utiliser ?
+
+BrainStorm: En tant qu'Ensaien, qu'est-ce qui vous distingue des autres formations en Data Science ?
+
+
 Vote : Quelles technos connaissez-vous ?
   Spark ou Storm
   Pig ou Hive
@@ -8,8 +15,13 @@ Vote : Quelles technos connaissez-vous ?
   Kafka, ActiveMQ ou RabbitMQ
   Docker, Rancher ou Kubernetes
   MLlib, Mahout ou Scikit-Learn
+
 Quizz : Introduction au Big Data
   QCU: Le Big Data est-il adapté pour le temps-réel ?
+  QCM: Pour quelles problématiques pensez-vous que le Big Data est adapté ?
+    * Pages Jaunes : Typologie des visiteurs web par ACP/CAH
+    * Assurances : Détection de fraude par régression logistique
+    * MacDo : Géolocalisation d'images par Deep Learning
   QCM: Qu'est-ce que le NoSql ?
     * Tout ce qui n'est pas base de données relationnelle
     * Une technique de parallélisation des calculs
@@ -29,4 +41,3 @@ Quizz : Introduction au Big Data
     * Une base de données
     * Un langage de requêtage des données
     * Une technologie NoSql
-  QCM: 
