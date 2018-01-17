@@ -93,11 +93,11 @@ chmod 0600 ~/.ssh/authorized_keys
 ### f. Get Started
 #### Start Hive
 ```
-sh ~/hadoop/hive
+~/hadoop/hive
 ```
 #### Start Pig
 ```
-sh ~/hadoop/pig
+~/hadoop/pig
 ```
 
 
