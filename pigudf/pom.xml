@@ -121,6 +121,25 @@
 		<!-- <systemPath>C:/Program Files/Java/jdk1.7.0_45/lib/tools.jar</systemPath> -->
 		<!-- </dependency> -->
 
+
+		<!-- SPARK -->
+		<dependency>
+			<groupId>org.scala-lang</groupId>
+			<artifactId>scala-library</artifactId>
+			<version>2.11.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-core_2.11</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.spark</groupId>
+			<artifactId>spark-mllib_2.11</artifactId>
+			<version>2.2.1</version>
+		</dependency>
+
+
 	</dependencies>
 
 
